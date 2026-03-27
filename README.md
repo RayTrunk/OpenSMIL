@@ -1,3 +1,4 @@
+![generated-image(3)](https://github.com/user-attachments/assets/ff2704f2-23ee-462c-8224-84b1846f58a4)
 # OpenSMIL Signage
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
