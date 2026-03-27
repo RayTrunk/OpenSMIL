@@ -1,46 +1,81 @@
-![generated-image(3)](https://github.com/user-attachments/assets/ff2704f2-23ee-462c-8224-84b1846f58a4)
+![OpenSMIL Logo](app/static/logo.png)
+
 # OpenSMIL Signage
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg)
+![Vue](https://img.shields.io/badge/Vue.js-3.0-4FC08D.svg)
+![Tailwind](https://img.shields.io/badge/TailwindCSS-v4.0-38B2AC.svg)
 
-**OpenSMIL Signage** is an open-source, highly scalable Digital Signage backend fully compliant with the **SMIL 3.0** (Synchronized Multimedia Integration Language) standard. 
+**OpenSMIL Signage** is an open-source, highly scalable Digital Signage backend and management GUI fully compliant with the **SMIL 3.0** standard.
 
-It provides a modern API to manage media assets, assemble playlists, and dynamically generate SMIL 3.0 XML files for digital signage players (e.g., BrightSign, IAdea, ViewSonic, or custom a-smil players) to poll and play.
-
-## 🚀 Vision
-
-Many commercial Digital Signage CMS solutions are heavily proprietary. OpenSMIL bridges the gap by offering a robust, community-driven backend that outputs pure, standardized SMIL 3.0. It is designed to be accessible for simple local setups while effortlessly scaling to manage thousands of displays globally.
-
-**Core Languages:** The primary language for the UI and documentation is English, with full native support for German.
+It provides a modern web interface to manage media assets, assemble playlists, and dynamically generate SMIL 3.0 XML files for digital signage players (e.g., BrightSign, IAdea, ViewSonic, or custom a-smil players) to poll and play.
 
 ## ✨ Key Features
 
-* **SMIL 3.0 Generation:** Dynamically translates visual playlist logic into valid SMIL XML (`<seq>`, `<par>`, `<layout>`, `<region>`).
-* **Multi-Tenancy (IAM):** Built-in role-based access control (Admin/Client) using JWT. Clients only see and manage their own players and media.
-* **Flexible Media Storage:** * Local filesystem storage for rapid development and small deployments.
-  * S3-compatible object storage (e.g., Hetzner, AWS, MinIO) for production environments.
-* **Database Agnostic:** Powered by SQLModel. Uses SQLite for zero-config local setups and MariaDB/PostgreSQL for heavy-duty production.
-* **Player Polling:** Optimized endpoints to handle thousands of simultaneous hardware requests efficiently.
+*   **SMIL 3.0 Generation:** Dynamically translates visual playlist logic into valid SMIL XML (`<seq>`, `<par>`, `<layout>`, `<region>`).
+*   **Modern Dashboard:** Sleek Vue.js 3 interface with real-time player status and system health monitoring.
+*   **Media Management:** Drag-and-drop uploads for images and videos with automatic metadata extraction.
+*   **Playlist Builder:** Advanced content editor to create playback sequences with custom durations.
+*   **Multi-Tenancy (IAM):** Role-based access control (Admin/Client) using JWT.
+*   **Flexible Storage:** Local filesystem storage (included) or S3-compatible object storage support.
 
 ## 🛠️ Tech Stack
 
-* **Backend Framework:** [FastAPI](https://fastapi.tiangolo.com/) (Python)
-* **ORM & Database:** [SQLModel](https://sqlmodel.tiangolo.com/) (SQLAlchemy + Pydantic)
-* **Authentication:** OAuth2 with JWT (JSON Web Tokens)
-* **Databases:** SQLite3 (Dev/Local) / MariaDB (Production)
-* **Storage:** Local / `boto3` for S3-compatible storage
+### Backend
+*   **Framework:** [FastAPI](https://fastapi.tiangolo.com/) (Python)
+*   **ORM:** [SQLModel](https://sqlmodel.tiangolo.com/)
+*   **Auth:** OAuth2 with JWT
+*   **Database:** SQLite (Dev) / MariaDB & PostgreSQL compatible
 
-## 📂 Architecture Overview
+### Frontend
+*   **Framework:** [Vue.js 3](https://vuejs.org/) (Vite + TypeScript)
+*   **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+*   **Icons:** Lucide Vue
 
+## 🚀 Quick Start
+
+### 1. Backend Setup
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Initialize the database and create admin user (Default: admin/admin)
+python -m app.initial_data
+
+# Start the server
+uvicorn app.main:app --reload
+```
+The API will be available at `http://localhost:8000`. Docs at `/docs`.
+
+### 2. Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+The GUI will be available at `http://localhost:5173`.
+
+## 📂 Project Structure
 ```text
-smil-backend/
+OpenSMIL/
 ├── app/
-│   ├── api/          # RESTful endpoints (Players, Media, Playlists, Auth)
-│   ├── core/         # Security, JWT, and Configuration
+│   ├── api/          # RESTful endpoints
+│   ├── core/         # Security, DB, and Configuration
 │   ├── models/       # SQLModel database schemas
-│   ├── services/     # Business logic (SMIL Builder, Storage Router)
-│   └── locales/      # i18n files (en.json, de.json)
+│   ├── services/     # SMIL Builder & Storage logic
+│   └── static/       # Assets (Logos, etc.)
+├── frontend/         # Vue.js 3 Application
 ├── data/             # SQLite database volume
 └── media_local/      # Local storage fallback
+```
+
+## 🧪 Verification
+You can verify the SMIL generation using the provided script:
+```bash
+python verify_smil.py
+```
+
+## 📄 License
+This project is licensed under the MIT License.
