@@ -26,11 +26,15 @@ class Playlist(PlaylistBase, table=True):
 class PlaylistCreate(PlaylistBase):
     pass
 
-class PlaylistRead(PlaylistBase):
-    id: int
-
 class PlaylistItemCreate(PlaylistItemBase):
     pass
 
+from app.models.media import MediaRead
+
 class PlaylistItemRead(PlaylistItemBase):
     id: int
+    media: Optional[MediaRead] = None
+
+class PlaylistRead(PlaylistBase):
+    id: int
+    items: List[PlaylistItemRead] = []

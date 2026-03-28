@@ -188,19 +188,25 @@ const removeItem = (index: number) => {
 }
 
 const savePlaylistContent = async () => {
-  // In a real implementation, you'd send the entire sequence to the backend
-  // For now, let's assume we handle it per item or have a bulk update
   try {
-     // This is a simplified bulk save approach
+     // 1. Delete old items first (simplified approach: delete all and re-add or handle properly)
+     // For this version, we'll just add new items that don't have an ID
+     // and cleanup the payload sent to backend
      for (const item of selectedPlaylist.value.items) {
        if (!item.id) {
-         await axios.post(`http://localhost:8000/api/v1/playlists/${selectedPlaylist.value.id}/items`, item, { headers })
+         const payload = {
+           media_id: item.media_id,
+           duration: item.duration,
+           position: item.position
+         }
+         await axios.post(`http://localhost:8000/api/v1/playlists/${selectedPlaylist.value.id}/items`, payload, { headers })
        }
      }
      selectedPlaylist.value = null
      fetchPlaylists()
   } catch (err) {
     console.error('Failed to save playlist', err)
+    alert('Failed to save playlist content.')
   }
 }
 
